@@ -29,6 +29,10 @@
   .opt:active { background:#FFD9A8; }
   .progress { height:6px; background:#FFE3C2; border-radius:3px; margin-top:8px; overflow:hidden; }
   .bar { height:100%; background:#E8722A; border-radius:3px; transition:.3s; }
+  .age-input {
+    width:100%; padding:12px; border:2px solid #FFD9A8; border-radius:12px;
+    font-size:16px; margin-top:6px; background:#FFF6E5; outline:none;
+  }
   /* 结果页 */
   .result-card { text-align:center; }
   .match { color:#E8722A; font-size:52px; font-weight:bold; margin-top:10px; }
@@ -40,8 +44,9 @@
   .cols { display:flex; gap:12px; text-align:left; font-size:13px; line-height:2; margin-bottom:16px; }
   .cols > div { flex:1; background:#FFF6E5; border-radius:10px; padding:10px 12px; }
   .cols b { display:block; margin-bottom:4px; }
-  .retire { font-size:15px; margin-bottom:20px; }
+  .retire { font-size:15px; margin-bottom:6px; }
   .retire b { color:#D9534F; font-size:20px; }
+  .retire-sub { color:#999; font-size:13px; margin-bottom:20px; }
   .btn {
     display:block; width:100%; border:none; border-radius:12px;
     padding:14px; font-size:16px; font-weight:bold; cursor:pointer; margin-bottom:10px;
@@ -67,6 +72,10 @@
       是<b>发疯摸鱼</b>还是<b>已读乱回</b>？<br><br>
       附赠暴击数字：💀 距离退休还有多少天
     </p>
+    <div style="margin-top:16px;text-align:left;">
+      <label style="font-size:14px;color:#666;">你的年龄：</label>
+      <input id="ageInput" class="age-input" type="number" min="16" max="70" placeholder="例如 25">
+    </div>
     <button class="btn btn-main" style="margin-top:16px" onclick="startQuiz()">🔬 开始鉴定</button>
   </div>
 
@@ -131,7 +140,7 @@ const personalities = {
   }
 };
 
-/* ============ 题目（每题选项对应人格加分）============ */
+/* ============ 题目 ============ */
 const questions = [
   { q:'周一早上闹钟响了，你的第一反应是？', opts:[
     { t:'立刻起床，还提前到了公司', s:['juanwang','duanshui'] },
@@ -170,6 +179,7 @@ let current = 0;
 const scores = {};
 
 function startQuiz() {
+  window._age = parseInt(document.getElementById('ageInput').value) || 25;
   document.getElementById('home').style.display = 'none';
   document.getElementById('quiz').style.display = 'block';
   current = 0;
@@ -206,8 +216,15 @@ function pick(keys) {
 /* ============ 结果页 ============ */
 function showResult(pid) {
   const p = personalities[pid];
+  const age = window._age;
   const match = 76 + Math.floor(Math.random() * 20);
-  const retireDays = 10000 + Math.floor(Math.random() * 8000);
+  // 真实计算：60岁退休 - 当前年龄，换算成天数（加一点随机零头）
+  const retireDays = Math.max(0, (60 - age) * 365 + Math.floor(Math.random() * 365));
+
+  const retireSub = retireDays < 7000
+    ? '（熬一天少一天，且行且珍惜）'
+    : '（还有上万个班要上，加油打工人）';
+
   document.getElementById('quiz').style.display = 'none';
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').innerHTML = `
@@ -220,17 +237,20 @@ function showResult(pid) {
       <div><b style="color:#2E8B57">💪 优势</b>${p.pros.map(x=>`✓ ${x}<br>`).join('')}</div>
       <div><b style="color:#D9534F">⚠️ 注意</b>${p.cons.map(x=>`! ${x}<br>`).join('')}</div>
     </div>
-    <p class="retire">💀 距离退休还有 <b>${retireDays.toLocaleString()}</b> 天</p>
+    <p class="retire">💀 ${age} 岁的你，距离退休还有 <b>${retireDays.toLocaleString()}</b> 天</p>
+    <p class="retire-sub">${retireSub}</p>
     <button class="btn btn-main" onclick="genPoster('${pid}',${match},${retireDays})">📸 生成沙雕鉴定证书</button>
     <button class="btn btn-sub" onclick="location.reload()">🧬 再测一次</button>
     <p class="tip" id="saveTip" style="display:none">长按上方图片可保存到相册</p>
   `;
   window._retireDays = retireDays;
+  window._match = match;
 }
 
 /* ============ 海报生成 ============ */
 function genPoster(pid, match, retireDays) {
   const p = personalities[pid];
+  const age = window._age;
   const cv = document.getElementById('poster');
   const ctx = cv.getContext('2d');
   const W = 750, H = 1334;
@@ -270,17 +290,19 @@ function genPoster(pid, match, retireDays) {
 
   ctx.textAlign = 'center';
   ctx.font = 'bold 36px sans-serif'; ctx.fillStyle = '#333';
-  ctx.fillText(`💀 距离退休还有 ${retireDays.toLocaleString()} 天`, W/2, 1170);
+  ctx.fillText(`💀 ${age} 岁的你距离退休还有`, W/2, 1150);
+  ctx.fillStyle = '#D9534F';
+  ctx.fillText(`${retireDays.toLocaleString()} 天`, W/2, 1200);
 
   // 二维码裂变位（有 qrcode.png 就画，没有也能出海报）
   const qr = new Image();
   qr.onload = () => {
-    ctx.drawImage(qr, 70, 1205, 115, 115);
+    ctx.drawImage(qr, 70, 1225, 100, 100);
     ctx.textAlign = 'left';
     ctx.fillStyle = '#E8722A'; ctx.font = 'bold 32px sans-serif';
-    ctx.fillText('你是哪种职场基因？', 205, 1250);
+    ctx.fillText('你是哪种职场基因？', 190, 1265);
     ctx.fillStyle = '#999'; ctx.font = '24px sans-serif';
-    ctx.fillText('扫码立即鉴定', 205, 1292);
+    ctx.fillText('扫码立即鉴定', 190, 1305);
     showPoster(cv);
   };
   qr.onerror = () => showPoster(cv);
