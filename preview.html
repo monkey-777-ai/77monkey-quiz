@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>77monkey职场鉴定局：测测你体内有多少资本家基因？</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #FFF8E7;
+    color: #3D2B1F;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+    background-image: radial-gradient(circle at 15% 10%, #FFD9E8 0%, transparent 40%),
+                      radial-gradient(circle at 85% 85%, #C8F4F1 0%, transparent 40%),
+                      radial-gradient(circle at 80% 15%, #FFE9C7 0%, transparent 35%);
+  }
+  .container { width: 100%; max-width: 420px; }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(90deg, #FF5C8A, #FFB347);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 3px 10px rgba(255,92,138,.3);
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+  h1 {
+    font-size: 28px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #FF5C8A, #7B61FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sub { color: #A08C7B; font-size: 14px; margin-bottom: 28px; }
+  .question { display: none; animation: slideIn .4s ease; }
+  .question.active { display: block; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .q-title { font-size: 20px; font-weight: bold; margin-bottom: 8px; color: #FF5C8A; }
+  .q-desc { font-size: 14px; color: #B0A092; margin-bottom: 20px; }
+  .option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: 2px solid #F0E5D8;
+    color: #3D2B1F;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: 0 3px 8px rgba(123,97,255,.08);
+  }
+  .option:hover { transform: scale(1.03); border-color: #FF5C8A; background: #FFF0F5; box-shadow: 0 5px 15px rgba(255,92,138,.2); }
+  .option:active { transform: scale(0.98); }
+  #result {
+    display: none;
+    text-align: center;
+    animation: pop .5s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.1)} 100%{transform:scale(1)} }
+  .result-card {
+    background: linear-gradient(135deg, #fff, #FFF0F5);
+    border: 3px solid #FF5C8A;
+    border-radius: 20px;
+    padding: 28px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(255,92,138,.2);
+  }
+  .result-tag { font-size: 13px; color: #7B61FF; margin-bottom: 8px; }
+  .result-name { font-size: 32px; font-weight: 900; color: #FF5C8A; margin-bottom: 12px; }
+  .result-text { font-size: 15px; line-height: 1.8; color: #6B5B4D; text-align: left; }
+  .retry {
+    background: linear-gradient(90deg, #7B61FF, #9B85FF);
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    width: 100%;
+    cursor: pointer;
+    transition: transform .2s;
+    box-shadow: 0 5px 15px rgba(123,97,255,.25);
+  }
+  .retry:hover { transform: scale(1.05); }
+  .share-btn { margin-top: 16px; background: linear-gradient(90deg, #FF5C8A, #FFB347); }
+  .footer { margin-top: 32px; font-size: 12px; color: #C0B0A0; text-align: center; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="quiz">
+    <span class="badge">🔬 77monkey职场鉴定局</span>
+    <h1>测测你体内有多少<br>资本家基因？</h1>
+    <p class="sub">本鉴定由野生博主77monkey友情提供，结果仅供发疯，不构成职业建议。</p>
+
+    <div class="question active" data-q="1">
+      <div class="q-title">Q1：服务器冒烟了，你的第一反应？</div>
+      <p class="q-desc">画面感请自行脑补，烟雾报警器已经在响了。</p>
+      <button class="option" data-v="A">💼 先问：这事故能扣谁的钱？</button>
+      <button class="option" data-v="B">🤖 冷静掏出终端：让我看看日志。</button>
+      <button class="option" data-v="C">🤯 拍照发群：「家人们谁懂啊，我的服务器在做象征性自毁」</button>
+    </div>
+
+    <div class="question" data-q="2">
+      <div class="q-title">Q2：周一早上9点，你的真实状态？</div>
+      <p class="q-desc">别装，我看得到你的灵魂。</p>
+      <button class="option" data-v="A">💼 已经开完三个会，嘴上说着「降本增效」</button>
+      <button class="option" data-v="B">🤖 戴上降噪耳机，物理隔绝人类</button>
+      <button class="option" data-v="C">🤯 在工位表演「人在魂不在」，等待下班倒计时启动</button>
+    </div>
+
+    <div class="question" data-q="3">
+      <div class="q-title">Q3：看到员工在摸鱼，你第一反应？</div>
+      <p class="q-desc">注意，这道题测的不是行为，是基因。</p>
+      <button class="option" data-v="A">💼 他上班时间的小时薪正在燃烧我的资产</button>
+      <button class="option" data-v="B">🤖 嫉妒了，我也想摸但是需求不答应</button>
+      <button class="option" data-v="C">🤯 凑过去：「刷什么呢？带我一个」</button>
+    </div>
+
+    <div class="question" data-q="4">
+      <div class="q-title">Q4：老板深夜发消息「在吗」，你会？</div>
+      <p class="q-desc">深夜的消息，都是魔鬼的邀请函。</p>
+      <button class="option" data-v="A">💼 秒回！机会来了，主动请缨接管这个项目</button>
+      <button class="option" data-v="B">🤖 装睡。手机一晚上不响，第二天说「睡太死了」</button>
+      <button class="option" data-v="C">🤯 回一个「？」然后开始录屏准备发小红书吐槽</button>
+    </div>
+
+    <div class="question" data-q="5">
+      <div class="q-title">Q5：年终奖发下来了，你的反应？</div>
+      <p class="q-desc">最后一题，直接决定你的命运。</p>
+      <button class="option" data-v="A">💼 盘算着：这些钱招三个实习生，产能翻五倍</button>
+      <button class="option" data-v="B">🤖 默默存起来，打算攒够钱就辞职去写开源</button>
+      <button class="option" data-v="C">🤯 当天辞职信已写好，第二天冷静下来又撤回了</button>
+    </div>
+
+    <div class="question" data-q="6">
+      <div class="q-title">Q6：暴击彩蛋——你今年多大了？</div>
+      <p class="q-desc">这题不测人格，只为算出你还要当多少天牛马。请诚实，数字不说谎。</p>
+      <button class="option" data-age="2003">🎓 22岁以下（刚出社会的嫩崽）</button>
+      <button class="option" data-age="1997">💼 23~28岁（卷王黄金期）</button>
+      <button class="option" data-age="1990">🫠 29~35岁（职场人柱力）</button>
+      <button class="option" data-age="1982">🧓 36岁以上（资深老油条）</button>
+    </div>
+  </div>
+
+  <div id="result">
+    <div class="result-card">
+      <div class="result-tag">🔬 77monkey鉴定局 · 鉴定结果</div>
+      <div class="result-name" id="r-name"></div>
+      <div class="result-text" id="r-text"></div>
+    </div>
+    <button class="retry" onclick="location.reload()">🧬 再测一次（万一变异了呢）</button>
+    <button class="retry share-btn" id="shareBtn" onclick="makePoster()">📸 生成沙雕鉴定证书（发圈专用）</button>
+    <div id="posterBox" style="display:none">
+      <canvas id="posterCanvas" width="750" height="1000" style="display:none"></canvas>
+      <img id="posterImg" style="width:100%;border-radius:16px;border:3px solid #FF5C8A;box-shadow:0 8px 25px rgba(255,92,138,.2);">
+      <p style="font-size:13px;color:#B0A092;margin-top:10px;">长按保存，然后@你那个最卷的朋友来受刑 👇</p>
+    </div>
+    <div class="footer">
+      —— 由野生博主 <b>77monkey</b> 倾情制作<br>
+      想要更多解压链接，去主页找我玩 🐒
+    </div>
+  </div>
+</div>
+
+<script>
+const answers = [];
+let userAge = 30;
+let current = 1;
+
+document.querySelectorAll('.option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.age) {
+      userAge = new Date().getFullYear() - parseInt(btn.dataset.age);
+    } else {
+      answers.push(btn.dataset.v);
+    }
+    const qEl = document.querySelector(`[data-q="${current}"]`);
+    qEl.classList.remove('active');
+    current++;
+    const next = document.querySelector(`[data-q="${current}"]`);
+    if (next) next.classList.add('active');
+    else showResult();
+  });
+});
+
+function showResult() {
+  const key = answers[4];
+  const countA = answers.filter(a => a === 'A').length;
+  const countB = answers.filter(a => a === 'B').length;
+
+  let name, text;
+  if (key === 'A' || countA >= 3) {
+    name = '🦈 霸道总裁（资本含量98%）';
+    text = '恭喜！你的血管里流的不是血，是KPI。你看到活人首先评估「这个人的时薪成本」，看到月亮想到「今晚加班双倍效率」。建议：睡觉的时候也开个会，把梦里的人都卷起来。';
+  } else if (key === 'B' || countB >= 3) {
+    name = '🔧 苦命CTO（技术含量120%，情绪含量0%）';
+    text = '你不是在修bug，bug就是在修你。你的精神状态完全取决于服务器的CPU占用率。全公司最懂系统的人，也是最不敢请假的人——因为你一走，整个架构就像你的人生一样会塌。';
+  } else {
+    name = '🤪 发疯摸鱼型灵魂选手（发疯含量∞）';
+    text = '职场对你来说就是一个大型真人秀，而你自带剧本。上班摸鱼、下班发疯、深夜大胆、白天装死。别人卷业绩，你卷段子。虽然工资不高，但精神状态领先全公司十年。';
+  }
+
+  const daysLeft = Math.max(0, Math.floor((65 - userAge) * 365.25));
+  text += ` 另外，你今年${userAge}岁，距离退休还有约 ${daysLeft.toLocaleString()} 天，请节哀。`;
+
+  document.getElementById('r-name').textContent = name;
+  document.getElementById('r-text').textContent = text;
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ========== 沙雕鉴定证书海报（明亮版配色） ==========
+function makePoster() {
+  const c = document.getElementById('posterCanvas');
+  const ctx = c.getContext('2d');
+
+  // 奶油色渐变背景
+  const bg = ctx.createLinearGradient(0, 0, 750, 1000);
+  bg.addColorStop(0, '#FFF8E7');
+  bg.addColorStop(1, '#FFDDE8');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 750, 1000);
+
+  // 装饰圆点（糖果风）
+  ctx.fillStyle = 'rgba(123,97,255,.12)';
+  ctx.beginPath(); ctx.arc(640, 150, 60, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,179,71,.15)';
+  ctx.beginPath(); ctx.arc(100, 850, 70, 0, Math.PI * 2); ctx.fill();
+
+  // 边框
+  ctx.strokeStyle = '#FF5C8A';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(30, 30, 690, 940);
+
+  ctx.textAlign = 'center';
+
+  // 顶部机构名
+  ctx.fillStyle = '#7B61FF';
+  ctx.font = 'bold 30px sans-serif';
+  ctx.fillText('77monkey 职场鉴定局 · 正式文件', 375, 110);
+  ctx.fillStyle = '#C0A890';
+  ctx.font = '18px sans-serif';
+  ctx.fillText('( 本证书不具备任何法律效力，只具备杀伤力 )', 375, 145);
+
+  // 大标题
+  ctx.fillStyle = '#FF5C8A';
+  ctx.font = 'bold 84px sans-serif';
+  ctx.fillText('鉴定结果', 375, 270);
+
+  // 人格名
+  const name = document.getElementById('r-name').textContent;
+  ctx.fillStyle = '#3D2B1F';
+  ctx.font = 'bold 44px sans-serif';
+  wrapText(ctx, name, 375, 380, 620, 60);
+
+  // 语录框
+  ctx.strokeStyle = '#7B61FF';
+  ctx.lineWidth = 4;
+  roundRect(ctx, 80, 500, 590, 240, 20);
+  ctx.stroke();
+  const text = document.getElementById('r-text').textContent;
+  ctx.fillStyle = '#6B5B4D';
+  ctx.font = '26px sans-serif';
+  ctx.textAlign = 'left';
+  wrapText(ctx, text, 110, 550, 530, 40);
+  ctx.textAlign = 'center';
+
+  // 随机损人金句
+  const roasts = [
+    '诊断建议：建议直接发疯，效果优于内服。',
+    '医生备注：这病没救了，回炉重造吧。',
+    '注意事项：请勿在老板面前展示本证书。',
+    '主治医师：77monkey（野生执照，未经年检）',
+    '退休评估：按目前状态，你大概率会在工位上直接碳基化。',
+    '退休评估：好消息是还有几千天，坏消息是天天数。'
+  ];
+  ctx.fillStyle = '#FF8A00';
+  ctx.font = 'italic 24px sans-serif';
+  ctx.fillText('💊 ' + roasts[Math.floor(Math.random() * roasts.length)], 375, 800);
+
+  // 鉴定日期 + 专属退休倒计时
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+
+  ctx.fillStyle = '#A08C7B';
+  ctx.font = '22px sans-serif';
+  ctx.fillText(`📅 鉴定日期：${dateStr}`, 375, 845);
+
+  ctx.fillStyle = '#FF5C8A';
+  ctx.font = 'bold 24px sans-serif';
+  const retireYear = now.getFullYear() + (65 - userAge);
+  const days = Math.max(0, Math.floor((new Date(retireYear, now.getMonth(), now.getDate()) - now) / 86400000));
+  ctx.fillText(`⏳ 你今年${userAge}岁，距退休还有 ${days.toLocaleString()} 天`, 375, 880);
+
+  ctx.fillStyle = '#A08C7B';
+  ctx.font = '20px sans-serif';
+  ctx.fillText(`（折合 ${(days / 7).toFixed(0)} 个周末，且周末大概率不属于你）`, 375, 908);
+
+  // 底部口播
+  ctx.fillStyle = '#C0B0A0';
+  ctx.font = '22px sans-serif';
+  ctx.fillText('—— 由野生博主 77monkey 倾情鉴定 ——', 375, 940);
+  ctx.fillText('更多解压链接，去主页找我玩 🐒', 375, 975);
+
+  document.getElementById('posterImg').src = c.toDataURL('image/png');
+  document.getElementById('posterBox').style.display = 'block';
+  document.getElementById('shareBtn').style.display = 'none';
+  document.getElementById('posterBox').scrollIntoView({ behavior: 'smooth' });
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  let line = '', lines = [];
+  for (const ch of text) {
+    if (ctx.measureText(line + ch).width > maxWidth) {
+      lines.push(line); line = ch;
+    } else line += ch;
+  }
+  lines.push(line);
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight));
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+</script>
+</body>
+</html>
